@@ -8,7 +8,8 @@ from ipmininet.router.config.base import RouterConfig
 from ipmininet.router.config.zebra import StaticRoute, Zebra
 
 """
-
+                         fw
+                          |
   a ---- r1  ---- r2 ---- r3  ----  c
           |        +      |
           ------- r4 ------
@@ -18,6 +19,7 @@ from ipmininet.router.config.zebra import StaticRoute, Zebra
 """
 
 # R1 R3 R4 are Segment Routing Enabled Server.
+# FW is R5
 
 ipv6_address={
     1:"2001:1a::/64",
@@ -45,16 +47,20 @@ class SimpleTopo(IPTopo):
         """
         """
         r1_routes = [StaticRoute("fc00:4::/64", "2001:14::2"),StaticRoute("::/0", "2001:12::2")]
-        r3_routes = [StaticRoute("fc00:4::/64", "2001:34::2"),StaticRoute("::/0", "2001:23::1")]
+        r3_routes = [StaticRoute("fc00:4::/64", "2001:34::2"),StaticRoute("fc00:5::/64", "2001:35::2"),StaticRoute("::/0", "2001:23::1")]
         r4_routes = [StaticRoute("fc00:1::/64", "2001:14::1"),StaticRoute("fc00:3::/64", "2001:34::1"),
                      StaticRoute("::/0", "2001:24::1")]
         r2_routes = [StaticRoute("fc00:1::/64", "2001:12::1"),
                      StaticRoute("fc00:3::/64", "2001:23::2"),
                      StaticRoute("fc00:4::/64", "2001:24::2")]
+
+        fw_routes = [StaticRoute("::/0","2001:35::1")]
     
         r1 = self.addRouter_v('r1', r1_routes)
         r3 = self.addRouter_v('r3', r3_routes)
         r4 = self.addRouter_v('r4', r4_routes)
+        fw = self.addRouter_v('fw', fw_routes)
+
 
         r2 = self.addRouter_v6('r2', r2_routes) # Pure IPv6 Router
 
@@ -104,6 +110,11 @@ class SimpleTopo(IPTopo):
         self.addLink(r3, c,
                      params1={"ip": "2001:3c::1/64"},
                      params2={"ip": "2001:3c::2/64"})
+
+        self.addLink(r3, fw,
+                     params1={"ip": "2001:35::1/64"},
+                     params2={"ip": "2001:35::2/64"})
+
 
         super(SimpleTopo, self).build(*args, **kwargs)
 
@@ -259,8 +270,11 @@ if __name__ == '__main__':
 
         # Enable SRv6 On Routers.
         r1 = RouterConfiguration(net.get('r1'),1)
+        r2 = RouterConfiguration(net.get('r2'),2)
         r3 = RouterConfiguration(net.get('r3'),3)
         r4 = RouterConfiguration(net.get('r4'),4)
+        fw = RouterConfiguration(net.get('fw'),5)
+
         HostConfiguration(net.get('a'),'a',1)
         HostConfiguration(net.get('b'),'b',4)
         HostConfiguration(net.get('c'),'c',3)
