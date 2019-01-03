@@ -8,7 +8,7 @@ from ipmininet.router.config.base import RouterConfig
 from ipmininet.router.config.zebra import StaticRoute, Zebra
 
 """
-                         fw
+                         ids
                           |
   a ---- r1  ---- r2 ---- r3  ----  c
           |        +      |
@@ -19,7 +19,7 @@ from ipmininet.router.config.zebra import StaticRoute, Zebra
 """
 
 # R1 R3 R4 are Segment Routing Enabled Server.
-# FW is R5
+# IDS is R5
 
 ipv6_address={
     1:"2001:1a::/64",
@@ -62,7 +62,7 @@ class SimpleTopo(IPTopo):
         r1 = self.addRouter_v('r1', r1_routes)
         r3 = self.addRouter_v('r3', r3_routes)
         r4 = self.addRouter_v('r4', r4_routes)
-        ids = self.addRouter_v('ids', fw_routes)
+        ids = self.addRouter_v('ids', ids_routes)
 
 
         r2 = self.addRouter_v6('r2', r2_routes) # Pure IPv6 Router
