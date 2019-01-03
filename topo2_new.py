@@ -43,7 +43,9 @@ r4_routes = [StaticRoute("fc00:1::/64", "2001:14::1"),StaticRoute("fc00:3::/64",
                 StaticRoute("::/0", "2001:24::1")]
 r2_routes = [StaticRoute("fc00:1::/64", "2001:12::1"),
                 StaticRoute("fc00:3::/64", "2001:23::2"),
-                StaticRoute("fc00:4::/64", "2001:24::2")]
+                StaticRoute("fc00:4::/64", "2001:24::2"),
+                StaticRoute("fc00:5::/64", "2001:23::2"),
+                ]
 
 ids_routes = [StaticRoute("::/0","2001:35::1")]
 
