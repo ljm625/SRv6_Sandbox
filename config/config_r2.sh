@@ -26,10 +26,10 @@ sysctl -w net.ipv6.conf.eth3.seg6_enabled=1
 
 
 # Configure Routing
-ip -6 route add fc00:1::1 via 2001:12::1
-ip -6 route add fc00:3::3 via 2001:23::2
-ip -6 route add fc00:a::a via 2001:a::2
-ip -6 route add fc00:b::b via 2001:23::2
+ip -6 route add fc00:1::/64 via 2001:12::1
+ip -6 route add fc00:3::/64 via 2001:23::2
+ip -6 route add fc00:a::/64 via 2001:a::2
+ip -6 route add fc00:b::/64 via 2001:23::2
 
 # Enable forwarding
 sysctl -w net.ipv6.conf.all.forwarding=1

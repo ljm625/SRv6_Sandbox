@@ -30,7 +30,7 @@ sysctl -w net.ipv6.conf.eth3.seg6_enabled=1
 ip -6 route del default
 
 ip -6 route add default via 2001:23::1
-ip -6 route add fc00:b::b via 2001:b::2
+ip -6 route add fc00:b::/64 via 2001:b::2
 
 
 # Enable forwarding
