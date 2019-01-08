@@ -9,7 +9,7 @@ ip addr add 10.0.0.1/24 dev eth1
 
 
 # Configure Routing
-ip route add 10.0.2.0/24 via 10.0.0.2
+ip route add 10.0.1.0/24 via 10.0.0.2
 
 
 # Accept SRv6 traffic

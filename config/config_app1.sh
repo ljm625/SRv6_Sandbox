@@ -22,6 +22,8 @@ ip -6 route add default via 2001:a::1
 
 
 # Enable forwarding
+sysctl -w net.ipv4.ip_forward=1
+
 sysctl -w net.ipv6.conf.all.forwarding=1
 
 

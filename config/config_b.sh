@@ -2,7 +2,7 @@
 
 # Configure Interfaces
 ifconfig eth1 up
-ip addr add 10.0.2.1/24 dev eth1
+ip addr add 10.0.1.1/24 dev eth1
 
 
 # Enable forwarding
@@ -15,7 +15,7 @@ ip addr add 10.0.2.1/24 dev eth1
 # sysctl -w net.ipv6.conf.eth2.seg6_enabled=1
 
 # Configure Routing
-ip route add 10.0.0.0/24 via 10.0.2.2
+ip route add 10.0.0.0/24 via 10.0.1.2
 
 # Enable forwarding
 sysctl -w net.ipv6.conf.all.forwarding=1

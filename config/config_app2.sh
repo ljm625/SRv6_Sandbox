@@ -8,6 +8,8 @@ ifconfig lo up
 ip -6 addr add fc00:b::b/64 dev lo
 
 # Enable forwarding
+sysctl -w net.ipv4.ip_forward=1
+ 
 sysctl -w net.ipv6.conf.all.forwarding=1
 
 # Accept SRv6 traffic

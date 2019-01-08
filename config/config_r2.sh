@@ -15,6 +15,8 @@ ip -6 addr add fc00:2::2/64 dev lo
 
 
 # Enable forwarding
+sysctl -w net.ipv4.ip_forward=1
+
 sysctl -w net.ipv6.conf.all.forwarding=1
 
 # Accept SRv6 traffic
@@ -33,6 +35,25 @@ ip -6 route add fc00:b::/64 via 2001:23::2
 
 # Enable forwarding
 sysctl -w net.ipv6.conf.all.forwarding=1
+
+
+
+# Install SREXT
+
+
+cd ~/
+git clone https://github.com/SRouting/SRv6-net-prog
+cd SRv6-net-prog/srext/
+make && make install && depmod -a && modprobe srext
+# srconf localsid add fc00:3::f2:AD60 end.ad6 ip fd00:3:0::f2:2 veth0 veth1
+# srconf localsid add fc00:3::f2:AD61 end.ad6 ip fd00:3:1::f2:2 veth1 veth0
+
+
+
+
+# # Configure SR policies
+ip -6 route add fc00:2::a/128 encap seg6local action End dev eth1
+
 
 
 

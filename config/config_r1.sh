@@ -11,6 +11,7 @@ ifconfig lo up
 ip -6 addr add fc00:1::1/64 dev lo
 
 # Enable forwarding
+sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv6.conf.all.forwarding=1
 
 # Accept SRv6 traffic
@@ -26,6 +27,12 @@ ip -6 route add default via 2001:12::2
 
 # Enable forwarding
 sysctl -w net.ipv6.conf.all.forwarding=1
+
+# # Configure SR policies
+ip -6 route add fc00:1::a/128 encap seg6local action End.DX4 nh4 10.0.0.1 dev eth1
+ip route add 10.0.1.0/24 encap seg6 mode encap segs fc00:2::a,fc00:3::a dev eth2
+# ip -6 route add fc00:e::/64 encap seg6 mode encap segs fc00:5::f3:0,fc00:6::D6 dev eth2 table br2
+
 
 
 # # Configure Branches (BR1 and BR2)
