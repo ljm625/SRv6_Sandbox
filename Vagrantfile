@@ -88,7 +88,6 @@ Vagrant.configure("2") do |config|
 		r3.vm.network "private_network", ip: "10.0.1.2", virtualbox__intnet: "netv4b"
                 r3.vm.network "private_network", ip: "2001:23::2",netmask: "64", virtualbox__intnet: "net23"
 		r3.vm.network "private_network", ip: "2001:b::1",netmask: "64", virtualbox__intnet: "netapp2"
-
                 r3.vm.provider "virtualbox" do |virtualbox|
 			virtualbox.memory = "512"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 

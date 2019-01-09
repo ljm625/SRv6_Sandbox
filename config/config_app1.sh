@@ -29,18 +29,10 @@ sysctl -w net.ipv6.conf.all.forwarding=1
 
 # Configure VNFs
 cd ~/
-rm -rf SRv6_Sandbox/
+rm -rf srv6_Sandbox/
 git clone https://github.com/ljm625/srv6_Sandbox
-cd SRv6_Sandbox/config/
+cd srv6_Sandbox/config/
 sh deploy-vnf-v4.sh add snort veth0 veth1 192.168.1.1/24 192.168.2.1/24 192.168.1.2/24 192.168.2.2/24
-
-# Install and configure srext (SR proxy)
-cd ~/
-git clone https://github.com/SRouting/SRv6-net-prog
-cd SRv6-net-prog/srext/
-make && make install && depmod -a && modprobe srext
-# srconf localsid add fc00:3::f2:AD60 end.ad6 ip fd00:3:0::f2:2 veth0 veth1
-# srconf localsid add fc00:3::f2:AD61 end.ad6 ip fd00:3:1::f2:2 veth1 veth0
 
 # Install Snort
 cd ~/
@@ -58,6 +50,22 @@ cd snort-2.9.12
 
 # Update shared libraries (mandatory according to Snort documentation)
 sudo ldconfig
+
+
+# Install and configure srext (SR proxy)
+cd ~/
+git clone https://github.com/SRouting/SRv6-net-prog
+cd SRv6-net-prog/srext/
+make && make install && depmod -a && modprobe srext
+
+
+
+
+# Configure SRv6 Policies
+srconf localsid add fc00:a::a1 end.ad4 ip 192.168.1.2 veth0 veth1
+
+
+
 
 # configure snort rules
 sudo mkdir -p /etc/snort/ /etc/snort/rules/ /var/log/snort
