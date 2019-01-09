@@ -18,12 +18,28 @@ sysctl -w net.ipv6.conf.lo.seg6_enabled=1
 sysctl -w net.ipv6.conf.eth1.seg6_enabled=1
 
 
+# Enable SR Aware IPtables
+sysctl -w net.ipv6.ip6t_seg6=1
+
 # Configure Routing
 ip -6 route del default
 ip -6 route add default via 2001:b::1
 
 # Enable forwarding
 sysctl -w net.ipv6.conf.all.forwarding=1
+
+
+# Configure SRv6 Policy 
+ip -6 route add fc00:b::a1/128 encap seg6local action End dev eth1
+
+
+# Configure snort rules
+sudo mkdir -p /etc/snort/ /etc/snort/rules/ /var/log/snort
+touch /etc/snort/snort.conf /etc/snort/rules/local.rule
+echo 'var RULE_PATH rules' >> /etc/snort/snort.conf
+echo 'include $RULE_PATH/local.rule' >> /etc/snort/snort.conf
+echo 'alert icmp any any -> any any (msg:"ICMP detected"; sid:1000)' >> /etc/snort/rules/local.rule
+
 
 
 # # Configure Branches (BR1 and BR2)
