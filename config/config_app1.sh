@@ -23,8 +23,50 @@ ip -6 route add default via 2001:a::1
 
 # Enable forwarding
 sysctl -w net.ipv4.ip_forward=1
-
 sysctl -w net.ipv6.conf.all.forwarding=1
+
+
+
+# Configure VNFs
+cd ~/
+rm -rf SRv6_Sandbox/
+git clone https://github.com/ljm625/srv6_Sandbox
+cd SRv6_Sandbox/config/
+sh deploy-vnf-v4.sh add snort veth0 veth1 192.168.1.1/24 192.168.2.1/24 192.168.1.2/24 192.168.2.2/24
+
+# Install and configure srext (SR proxy)
+cd ~/
+git clone https://github.com/SRouting/SRv6-net-prog
+cd SRv6-net-prog/srext/
+make && make install && depmod -a && modprobe srext
+# srconf localsid add fc00:3::f2:AD60 end.ad6 ip fd00:3:0::f2:2 veth0 veth1
+# srconf localsid add fc00:3::f2:AD61 end.ad6 ip fd00:3:1::f2:2 veth1 veth0
+
+# Install Snort
+cd ~/
+wget https://snort.org/downloads/snort/daq-2.0.6.tar.gz
+wget https://snort.org/downloads/snort/snort-2.9.12.tar.gz
+
+tar xvzf daq-2.0.6.tar.gz
+cd daq-2.0.6
+./configure && make && sudo make install
+
+cd ~/
+tar xvzf snort-2.9.12.tar.gz
+cd snort-2.9.12
+./configure --enable-sourcefire --disable-open-appid && make && sudo make install
+
+# Update shared libraries (mandatory according to Snort documentation)
+sudo ldconfig
+
+# configure snort rules
+sudo mkdir -p /etc/snort/ /etc/snort/rules/ /var/log/snort
+
+touch /etc/snort/snort.conf /etc/snort/rules/local.rule
+echo 'var RULE_PATH rules' >> /etc/snort/snort.conf
+echo 'include $RULE_PATH/local.rule' >> /etc/snort/snort.conf
+echo 'alert icmp any any -> any any (msg:"ICMP detected"; sid:1000)' >> /etc/snort/rules/local.rule
+
 
 
 # # Configure Branches (BR1 and BR2)

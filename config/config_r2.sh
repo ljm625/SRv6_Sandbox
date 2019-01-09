@@ -38,13 +38,13 @@ sysctl -w net.ipv6.conf.all.forwarding=1
 
 
 
-# Install SREXT
+# # Install SREXT
 
 
-cd ~/
-git clone https://github.com/SRouting/SRv6-net-prog
-cd SRv6-net-prog/srext/
-make && make install && depmod -a && modprobe srext
+# cd ~/
+# git clone https://github.com/SRouting/SRv6-net-prog
+# cd SRv6-net-prog/srext/
+# make && make install && depmod -a && modprobe srext
 # srconf localsid add fc00:3::f2:AD60 end.ad6 ip fd00:3:0::f2:2 veth0 veth1
 # srconf localsid add fc00:3::f2:AD61 end.ad6 ip fd00:3:1::f2:2 veth1 veth0
 
