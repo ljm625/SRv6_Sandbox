@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 		hosta.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
 		hosta.vm.network "private_network", ip: "10.0.0.1", virtualbox__intnet: "netv4a"
 		hosta.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'tracea.pcap']
 			virtualbox.customize ['modifyvm', :id, '--cableconnected1', 'on']
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
 		hostb.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
 		hostb.vm.network "private_network", ip: "10.0.1.1", virtualbox__intnet: "netv4b"
 		hostb.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceb.pcap']
 			virtualbox.customize ['modifyvm', :id, '--cableconnected1', 'on']
@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
 		r1.vm.network "private_network", ip: "2001:12::1",netmask: "64", virtualbox__intnet: "net12"
 
 		r1.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'trace1.pcap']
 			virtualbox.customize ['modifyvm', :id, '--nictrace3', 'on'] 
@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
 		r2.vm.network "private_network", ip: "2001:a::1",netmask: "64", virtualbox__intnet: "netapp1"
 
 		r2.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.cpus = "1"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'trace2.pcap']
@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
                 r3.vm.network "private_network", ip: "2001:23::2",netmask: "64", virtualbox__intnet: "net23"
 		r3.vm.network "private_network", ip: "2001:b::1",netmask: "64", virtualbox__intnet: "netapp2"
                 r3.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'trace3.pcap']
 			virtualbox.customize ['modifyvm', :id, '--nictrace3', 'on'] 
@@ -112,7 +112,7 @@ Vagrant.configure("2") do |config|
                 app1.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
                 app1.vm.network "private_network", ip: "2001:a::2",netmask: "64", virtualbox__intnet: "netapp1"
                 app1.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceapp1.pcap']
                         virtualbox.customize ['modifyvm', :id, '--cableconnected1', 'on']
@@ -128,7 +128,7 @@ Vagrant.configure("2") do |config|
                 app2.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
                 app2.vm.network "private_network", ip: "2001:b::2",netmask: "64", virtualbox__intnet: "netapp2"
                 app2.vm.provider "virtualbox" do |virtualbox|
-			virtualbox.memory = "512"
+			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
 			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceapp2.pcap']
                         virtualbox.customize ['modifyvm', :id, '--cableconnected1', 'on']
