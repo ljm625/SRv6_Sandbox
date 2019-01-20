@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
                 r2.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
 		r2.vm.network "private_network", ip: "2001:12::2",netmask: "64", virtualbox__intnet: "net12"
 		r2.vm.network "private_network", ip: "2001:23::1",netmask: "64", virtualbox__intnet: "net23"
-		r2.vm.network "private_network", ip: "2001:a::1",netmask: "64", virtualbox__intnet: "netapp1"
+		r2.vm.network "private_network", ip: "2001:a::1",netmask: "64", virtualbox__intnet: "netserver1"
 
 		r2.vm.provider "virtualbox" do |virtualbox|
 			virtualbox.memory = "256"
@@ -87,7 +87,7 @@ Vagrant.configure("2") do |config|
 		r3.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
 		r3.vm.network "private_network", ip: "10.0.1.2", virtualbox__intnet: "netv4b"
                 r3.vm.network "private_network", ip: "2001:23::2",netmask: "64", virtualbox__intnet: "net23"
-		r3.vm.network "private_network", ip: "2001:b::1",netmask: "64", virtualbox__intnet: "netapp2"
+		r3.vm.network "private_network", ip: "2001:b::1",netmask: "64", virtualbox__intnet: "netserver2"
                 r3.vm.provider "virtualbox" do |virtualbox|
 			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
@@ -105,35 +105,35 @@ Vagrant.configure("2") do |config|
                 end
 	        r3.vm.provision "shell", path: "config/config_r3.sh"
         end
-        # App1 configuration
-        config.vm.define "app1" do |app1|
-                app1.vm.box = "srouting/srv6-net-prog"
-                app1.vm.box_version = "0.4.14"
-                app1.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
-                app1.vm.network "private_network", ip: "2001:a::2",netmask: "64", virtualbox__intnet: "netapp1"
-                app1.vm.provider "virtualbox" do |virtualbox|
+        # server1 configuration
+        config.vm.define "server1" do |server1|
+                server1.vm.box = "srouting/srv6-net-prog"
+                server1.vm.box_version = "0.4.14"
+                server1.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
+                server1.vm.network "private_network", ip: "2001:a::2",netmask: "64", virtualbox__intnet: "netserver1"
+                server1.vm.provider "virtualbox" do |virtualbox|
 			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
-			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceapp1.pcap']
+			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceserver1.pcap']
                         virtualbox.customize ['modifyvm', :id, '--cableconnected1', 'on']
                         virtualbox.customize ['modifyvm', :id, '--cableconnected2', 'on']
                 end
-		app1.vm.provision "shell", path: "config/config_app1.sh"
+		server1.vm.provision "shell", path: "config/config_server1.sh"
         end
 
-        # App2 configuration
-        config.vm.define "app2" do |app2|
-                app2.vm.box = "srouting/srv6-net-prog"
-                app2.vm.box_version = "0.4.14"
-                app2.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
-                app2.vm.network "private_network", ip: "2001:b::2",netmask: "64", virtualbox__intnet: "netapp2"
-                app2.vm.provider "virtualbox" do |virtualbox|
+        # server2 configuration
+        config.vm.define "server2" do |server2|
+                server2.vm.box = "srouting/srv6-net-prog"
+                server2.vm.box_version = "0.4.14"
+                server2.vm.synced_folder(".", nil, :disabled => true, :id => "vagrant-root")
+                server2.vm.network "private_network", ip: "2001:b::2",netmask: "64", virtualbox__intnet: "netserver2"
+                server2.vm.provider "virtualbox" do |virtualbox|
 			virtualbox.memory = "256"
 			virtualbox.customize ['modifyvm', :id, '--nictrace2', 'on'] 
-			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceapp2.pcap']
+			virtualbox.customize ['modifyvm', :id, '--nictracefile2', 'traceserver2.pcap']
                         virtualbox.customize ['modifyvm', :id, '--cableconnected1', 'on']
                         virtualbox.customize ['modifyvm', :id, '--cableconnected2', 'on']
                 end
-	        app2.vm.provision "shell", path: "config/config_app2.sh"
+	        server2.vm.provision "shell", path: "config/config_server2.sh"
         end
 end
